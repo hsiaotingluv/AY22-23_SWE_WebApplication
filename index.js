@@ -44,3 +44,6 @@ app.use("/api", apiRoutes);
 app.listen(port, function () {
   console.log("Running RestHub on port " + port);
 });
+
+// Export our app for testing purposes
+module.exports = app;
