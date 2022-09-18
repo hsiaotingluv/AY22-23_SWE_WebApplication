@@ -4,12 +4,14 @@ node_js:
 cache:
   directories:
     - node_modules
-
 services:
   - mongodb
-
 install:
   - npm ci
-
 script:
   - npm test
+deploy:
+  provider: heroku
+  api_key:
+    secure: ZPesE95P8BDDUxUuGE7kS80Fg3plCJ2Nns8cDTmslw2p5SwHnt1sKU2u6ev8Un/EAvH9b6HidNSX2zf88K9vdqzKj+4UpLcAQ9pLr2Adqrd4wHxliTlkEb5oRXJkSu7gdIWQtM6Atwj3jhKgkVFHXMnyZyaS9e/gqtkqJbOQcpfj9bGt/VN4y1N27U1w99GnHxds4AcMGfd4TFxJZK7tE1JWAWhD/MTq4p5ikOc0Lkkz471O3w/dJDmCbCr7hXPWrdHXvtOWmEwugx0wzmb2ywHzzZ0CQAs4MK+4ZWj2wnMCNdJ0BsKedOble43OqKBwvK9en6FEYNWV5PSVRTWr7EPtwONHb1Y4BKO3f6Estqt8Pwdhbi9GGiuC+I7zZh1BY8t2m/ecX8isL12RWtWopC2HW3T6E6QbHZmw0AckcyGvMXEu2jhXDv6ojU5eoaDYppA7cpmCOzY6F8D2S2cl1g8Djtwk5ikATsq4YcxF8U225mUvE7BqYuJnITgZfE5M+t2Yq+hMXAAhOVOYWkCS2IjtF9vNCMq2B3Ggy7cbAbu6ekIP67Gh8NFTPaIF4W41S894FSq3aEUi3UOz+Vv58ZPpmUMyYlj+iUn7mGx0WGEB/xkKpfZ+BC5eUACmqh6KBPInk1NuJiyF4GAgd0MxIJnKL6dqCkUR3MiQOyK02uc=
+  app: cs3219-otot-taskb
