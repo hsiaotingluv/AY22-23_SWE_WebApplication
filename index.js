@@ -35,35 +35,40 @@ else console.log("Db connected successfully");
 // Setup server port
 var port = process.env.PORT || 9000;
 
-// Send message for default URL
-app.get("/", (req, res) =>
-  res.send("Hello World with Express, deployed with Heroku!!!")
-);
-
-// Have Node serve the files for our built React app
-app.use(express.static(path.resolve(__dirname, "./client/build")));
-
-// Use Api routes in the App
-app.use("/api", apiRoutes);
-
 // Launch app to listen to specified port
 app.listen(port, function () {
   console.log("Running RestHub on port " + port);
 });
 
-// Handle GET requests to /api route
-app.get("/api", (req, res) => {
-  res.json({ message: "Hello from server!" });
+// Have Node serve the files for our built React app
+app.use(express.static(path.resolve(__dirname, "./client/build")));
+
+// All other GET requests not handled before will return our React app
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
 });
 
-// Have heroku to serve a static build file
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static("build"));
-  // All other GET requests not handled before will return our React app
-  app.get("*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
-  });
-}
+// // Send message for default URL
+// app.get("/", (req, res) =>
+//   res.send("Hello World with Express, deployed with Heroku!!!")
+// );
+
+// // Use Api routes in the App
+// app.use("/api", apiRoutes);
+// // Handle GET requests to /api route
+// app.get("/api", (req, res) => {
+//   res.json({ message: "Hello from server!" });
+// });
+
+// // Have heroku to serve a static build file
+// if (process.env.NODE_ENV === "production") {
+//   // Have Node serve the files for our built React app
+//   app.use(express.static(path.resolve(__dirname, "./client/build")));
+//   // All other GET requests not handled before will return our React app
+//   app.get("*", (req, res) => {
+//     res.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
+//   });
+// }
 
 // Export our app for testing purposes
 module.exports = app;
