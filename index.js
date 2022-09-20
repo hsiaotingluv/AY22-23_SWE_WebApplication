@@ -1,5 +1,6 @@
 // Import express
 const express = require("express");
+const path = require("path");
 
 // Import Body parser
 let bodyParser = require("body-parser");
@@ -39,6 +40,9 @@ app.get("/", (req, res) =>
   res.send("Hello World with Express, deployed with Heroku!!!")
 );
 
+// Have Node serve the files for our built React app
+app.use(express.static(path.resolve(__dirname, "./client/build")));
+
 // Use Api routes in the App
 app.use("/api", apiRoutes);
 
@@ -46,6 +50,20 @@ app.use("/api", apiRoutes);
 app.listen(port, function () {
   console.log("Running RestHub on port " + port);
 });
+
+// Handle GET requests to /api route
+app.get("/api", (req, res) => {
+  res.json({ message: "Hello from server!" });
+});
+
+// Have heroku to serve a static build file
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("build"));
+  // All other GET requests not handled before will return our React app
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
+  });
+}
 
 // Export our app for testing purposes
 module.exports = app;

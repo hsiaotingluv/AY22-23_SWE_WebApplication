@@ -1,5 +1,5 @@
 const assert = require("assert");
-const Contact = require("../contactModel");
+const Contact = require("../model/contactModel");
 
 // Save records
 describe("Saving records", function () {

@@ -3,8 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "engines": {
+    "node": "18.9.0"
+  },
   "scripts": {
     "start": "node index.js",
+    "build": "cd client && npm install && npm run build",
     "test": "mocha --recursive --exit tests/*.js",
     "dev": "nodemon ./index.js"
   },
