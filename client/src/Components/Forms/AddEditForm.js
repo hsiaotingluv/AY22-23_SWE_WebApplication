@@ -86,31 +86,46 @@ class AddEditForm extends React.Component {
     }
   }
 
+  handleSubmit() {
+    const { name } = this.state;
+    if (name === "") {
+      console.log("INPUT NAME: ", name);
+      alert("Invalid input. Please enter a name.");
+    } else {
+      return this.props.item ? this.submitFormEdit : this.submitFormAdd;
+    }
+  }
+
   render() {
     return (
       <Form
-        onSubmit={this.props.item ? this.submitFormEdit : this.submitFormAdd}
+      // onSubmit={this.props.item ? this.submitFormEdit : this.submitFormAdd}
       >
         <FormGroup>
           <Label for="name">Name</Label>
           <Input
+            invalid={
+              typeof this.state.name === "undefined" ||
+              this.state.name.length < 1
+            }
             type="text"
             name="name"
             id="name"
-            invalid={this.state.name === null}
             onChange={this.onChange}
             value={this.state.name === null ? "" : this.state.name}
+            placeholder="Tom Cruise"
           />
-          <FormFeedback>Invalid contact. Name cannot be empty!</FormFeedback>
+          <FormFeedback>Please enter a name.</FormFeedback>
         </FormGroup>
         <FormGroup>
-          <Label for="last">Gender</Label>
+          <Label for="gender">Gender</Label>
           <Input
             type="text"
             name="gender"
             id="gender"
             onChange={this.onChange}
             value={this.state.gender === null ? "" : this.state.gender}
+            placeholder="Male"
           />
         </FormGroup>
         <FormGroup>
@@ -121,6 +136,7 @@ class AddEditForm extends React.Component {
             id="email"
             onChange={this.onChange}
             value={this.state.email === null ? "" : this.state.email}
+            placeholder="tom_cruise998@gmail.com"
           />
         </FormGroup>
         <FormGroup>
@@ -131,10 +147,16 @@ class AddEditForm extends React.Component {
             id="phone"
             onChange={this.onChange}
             value={this.state.phone === null ? "" : this.state.phone}
-            placeholder="ex. 555-555-5555"
+            placeholder="98568827"
           />
         </FormGroup>
-        <Button color="success">Submit</Button>
+        <Button
+          color="success"
+          onClick={this.props.item ? this.submitFormEdit : this.submitFormAdd}
+          disabled={!this.state.name}
+        >
+          Submit
+        </Button>
       </Form>
     );
   }
