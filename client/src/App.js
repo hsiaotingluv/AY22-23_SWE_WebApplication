@@ -1,37 +1,84 @@
 import React, { Component } from "react";
-import logo from "./logo.svg";
-import "./App.css";
+import { Container, Row, Col } from "reactstrap";
+import ModalForm from "./Components/Modals/Modal";
+import DataTable from "./Components/Tables/DataTable";
+import { CSVLink } from "react-csv";
 
 class App extends Component {
   state = {
-    data: null,
+    items: [],
+  };
+
+  getItems() {
+    fetch("http://localhost:9000/api/contacts")
+      .then((response) => response.json())
+      .then((items) => this.setState({ items: items.data }))
+      .catch((err) => console.log(err));
+  }
+
+  addItemToState = (item) => {
+    this.setState((prevState) => ({
+      items: [...prevState.items, item],
+    }));
+  };
+
+  updateState = (item) => {
+    const itemIndex = this.state.items.findIndex((data) => data._id === item._id);
+    const newArray = [
+      // destructure all items from beginning to the indexed item
+      ...this.state.items.slice(0, itemIndex),
+      // add the updated item to the array
+      item,
+      // add the rest of the items to the array from the index after the replaced item
+      ...this.state.items.slice(itemIndex + 1),
+    ];
+    this.setState({ items: newArray });
+  };
+
+  deleteItemFromState = (_id) => {
+    const updatedItems = this.state.items.filter((item) => item._id !== _id);
+    this.setState({ items: updatedItems });
   };
 
   componentDidMount() {
-    this.callBackendAPI()
-      .then((res) => this.setState({ data: res.express }))
-      .catch((err) => console.log(err));
+    this.getItems();
   }
-  // fetching the GET route from the Express server which matches the GET route from server.js
-  callBackendAPI = async () => {
-    const response = await fetch("/api/contacts");
-    const body = await response.json();
-
-    if (response.status !== 200) {
-      throw Error(body.message);
-    }
-    return body;
-  };
 
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">{this.state.data}</p>
-      </div>
+      <Container className="App">
+        <Row>
+          <Col>
+            <h1 style={{ margin: "20px 0" }}>Contact List</h1>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <DataTable
+              items={this.state.items}
+              updateState={this.updateState}
+              deleteItemFromState={this.deleteItemFromState}
+            />
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            {/* <CSVLink
+              filename={"db.csv"}
+              color="primary"
+              style={{ float: "left", marginRight: "10px" }}
+              className="btn btn-primary"
+              data={this.state.items}
+            >
+              Download Contacts
+            </CSVLink> */}
+            <ModalForm
+              buttonLabel="Add Contact"
+              addItemToState={this.addItemToState}
+            />
+          </Col>
+        </Row>
+      </Container>
     );
   }
 }

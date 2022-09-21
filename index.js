@@ -3,6 +3,17 @@ const express = require("express");
 const cors = require("cors");
 const path = require("path");
 
+// App Middleware
+const whitelist = ["http://localhost:3000"];
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+};
 // Import Body parser
 let bodyParser = require("body-parser");
 
@@ -15,6 +26,7 @@ const app = express();
 // Import routes
 const apiRoutes = require("./api-routes");
 const { application } = require("express");
+app.use(cors(corsOptions));
 // Configure bodyparser to handle post requests
 app.use(
   bodyParser.urlencoded({

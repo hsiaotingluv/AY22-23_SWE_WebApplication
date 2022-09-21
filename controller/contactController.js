@@ -5,10 +5,12 @@ Contact = require("../model/contactModel");
 exports.index = function (req, res) {
   Contact.get(function (err, contacts) {
     if (err) {
+      console.log("INDEX FAILED");
       res.json({
         status: "error",
         message: err,
       });
+      return
     }
     res.json({
       status: "success",
@@ -40,7 +42,11 @@ exports.new = function (req, res) {
 
   // save the contact and check for errors
   contact.save(function (err) {
-    if (err) res.json(err);
+    if (err) {
+      console.log("SAVE FAILED");
+      res.send(err);
+      return;
+    }
     res.json({
       message: "New contact created!",
       data: contact,
@@ -51,7 +57,11 @@ exports.new = function (req, res) {
 // Handle view contact info
 exports.view = function (req, res) {
   Contact.findById(req.params.contact_id, function (err, contact) {
-    if (err) res.send(err);
+    if (err) {
+      console.log("VIEW FAILED");
+      res.send(err);
+      return;
+    }
     res.json({
       message: "Contact details loading..",
       data: contact,
@@ -69,7 +79,11 @@ exports.update = function (req, res) {
     contact.phone = req.body.phone;
     // save the contact and check for errors
     contact.save(function (err) {
-      if (err) res.json(err);
+      if (err) {
+        console.log("UPDATE FAILED");
+        res.send(err);
+        return;
+      }
       res.json({
         message: "Contact Info updated",
         data: contact,
@@ -85,7 +99,11 @@ exports.delete = function (req, res) {
       _id: req.params.contact_id,
     },
     function (err, contact) {
-      if (err) res.send(err);
+      if (err) {
+        console.log("DELETE FAILED");
+        res.send(err);
+        return;
+      }
       res.json({
         status: "success",
         message: "Contact deleted",
