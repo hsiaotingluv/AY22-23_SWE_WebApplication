@@ -48,17 +48,17 @@ app.get("*", (req, res) => {
   res.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
 });
 
-// // Send message for default URL
-// app.get("/", (req, res) =>
-//   res.send("Hello World with Express, deployed with Heroku!!!")
-// );
+// Send message for default URL
+app.get("/", (req, res) =>
+  res.send("Hello World with Express, deployed with Heroku!!!")
+);
 
-// // Use Api routes in the App
-// app.use("/api", apiRoutes);
-// // Handle GET requests to /api route
-// app.get("/api", (req, res) => {
-//   res.json({ message: "Hello from server!" });
-// });
+// Use Api routes in the App
+app.use("/api", apiRoutes);
+// Handle GET requests to /api route
+app.get("/api", (req, res) => {
+  res.json({ message: "Hello from server!" });
+});
 
 // // Have heroku to serve a static build file
 // if (process.env.NODE_ENV === "production") {

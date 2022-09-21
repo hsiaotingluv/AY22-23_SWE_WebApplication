@@ -29,13 +29,12 @@ exports.new = function (req, res) {
   if (
     !contact.name ||
     typeof contact.name !== "string" ||
-    !contact.email ||
-    typeof contact.email !== "string" ||
+    (contact.email && typeof contact.email !== "string") ||
     (contact.gender && typeof contact.gender !== "string") ||
     (contact.phone && typeof contact.phone !== "string")
   ) {
     return res.status(400).json({
-      message: "Invalid Params, name and email cannot be empty",
+      message: "Invalid Params, name cannot be empty",
     });
   }
 

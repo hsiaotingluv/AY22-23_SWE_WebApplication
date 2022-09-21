@@ -8,8 +8,11 @@ router.get("/", function (req, res) {
     message: "Welcome to RESTHub crafted with love!",
   });
 });
+
 // Import contact controller
+
 var contactController = require("./controller/contactController");
+
 // Contact routes
 router
   .route("/contacts")
