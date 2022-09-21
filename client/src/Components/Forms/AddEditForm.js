@@ -90,9 +90,11 @@ class AddEditForm extends React.Component {
             type="text"
             name="name"
             id="name"
+            invalid={this.state.name === ""}
             onChange={this.onChange}
             value={this.state.name === null ? "" : this.state.name}
           />
+          <FormFeedback>Invalid contact. Name cannot be empty!</FormFeedback>
         </FormGroup>
         <FormGroup>
           <Label for="last">Gender</Label>
