@@ -1,5 +1,6 @@
 // Import express
 const express = require("express");
+const cors = require("cors");
 const path = require("path");
 
 // Import Body parser
@@ -40,13 +41,13 @@ app.listen(port, function () {
   console.log("Running RestHub on port " + port);
 });
 
-// Have Node serve the files for our built React app
-app.use(express.static(path.resolve(__dirname, "./client/build")));
+// // Have Node serve the files for our built React app
+// app.use(express.static(path.resolve(__dirname, "./client/build")));
 
-// All other GET requests not handled before will return our React app
-app.get("*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
-});
+// // All other GET requests not handled before will return our React app
+// app.get("*", (req, res) => {
+//   res.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
+// });
 
 // Send message for default URL
 app.get("/", (req, res) =>

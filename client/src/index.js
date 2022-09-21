@@ -1,7 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-// import App from './App';
+import App from "./App";
+
 // import reportWebVitals from './reportWebVitals';
 
 class ContactRow extends React.Component {
@@ -20,12 +21,15 @@ class ContactRow extends React.Component {
 class ContactTable extends React.Component {
   render() {
     var rows = [];
-    this.props.contacts.forEach((contact) => {
-      if (contact.name.indexOf(this.props.filterText) === -1) {
-        return;
-      }
-      rows.push(<ContactRow key={contact.key} contact={contact} />);
-    });
+    if (this.props.contacts != null) {
+      this.props.contacts.forEach((contact) => {
+        if (contact.name.indexOf(this.props.filterText) === -1) {
+          return;
+        }
+        rows.push(<ContactRow key={contact._id} contact={contact} />);
+      });
+    }
+
     return (
       <table className="table table-hover">
         <thead>
@@ -77,9 +81,9 @@ class SearchBar extends React.Component {
 }
 
 class FilterableContactTable extends React.Component {
-  state = {
-    data: null,
-  };
+  // state = {
+  //   data: null,
+  // };
 
   constructor(props) {
     super(props);
@@ -88,13 +92,13 @@ class FilterableContactTable extends React.Component {
     this.state = {
       filterText: "",
       contacts: [
-        {
-          key: 1,
-          name: "Tom Jackson",
-          email: "tom@gmail.com",
-          gender: "Male",
-          phone: "555-444-333",
-        },
+        // {
+        //   key: 1,
+        //   name: "Tom Jackson",
+        //   email: "tom@gmail.com",
+        //   gender: "Male",
+        //   phone: "555-444-333",
+        // },
         // {
         //   key: 2,
         //   name: "Mike James",
@@ -120,14 +124,16 @@ class FilterableContactTable extends React.Component {
         //   email: "emma1page@gmail.com",
         // },
       ],
+      isLoaded: false,
     };
     this.handleFilterTextInput = this.handleFilterTextInput.bind(this);
     this.addContact = this.addContact.bind(this);
   }
 
   componentDidMount() {
+    console.log("COMPONENTDIDMOUNT");
     this.callBackendAPI()
-      .then((res) => this.setState({ data: res.express }))
+      .then((res) => this.setState({ contacts: res.data, isLoading: false }))
       .catch((err) => console.log(err));
   }
 
@@ -135,6 +141,7 @@ class FilterableContactTable extends React.Component {
   callBackendAPI = async () => {
     const response = await fetch("/api/contacts");
     const body = await response.json();
+    console.log("Contacts retrieved: ", body);
 
     if (response.status !== 200) {
       throw Error(body.message);
@@ -173,20 +180,26 @@ class FilterableContactTable extends React.Component {
   // }
 
   render() {
-    return (
-      <div>
-        <h1>React Contacts List App</h1>
-        <SearchBar
-          filterText={this.state.filterText}
-          onFilterTextInput={this.handleFilterTextInput}
-        />
-        <NewContactRow addContact={this.addContact} />
-        <ContactTable
-          contacts={this.state.contacts}
-          filterText={this.state.filterText}
-        />
-      </div>
-    );
+    const { contacts, isLoading } = this.state;
+    console.log("contacts: ", contacts);
+    console.log("isLoading: ", isLoading);
+
+    if (!isLoading) {
+      return (
+        <div>
+          <h1>React Contacts List App</h1>
+          <SearchBar
+            filterText={this.state.filterText}
+            onFilterTextInput={this.handleFilterTextInput}
+          />
+          <NewContactRow addContact={this.addContact} />
+          <ContactTable
+            contacts={this.state.contacts}
+            filterText={this.state.filterText}
+          />
+        </div>
+      );
+    }
   }
 }
 
