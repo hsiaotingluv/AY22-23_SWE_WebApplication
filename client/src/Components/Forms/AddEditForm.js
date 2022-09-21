@@ -1,5 +1,12 @@
 import React from "react";
-import { Button, Form, FormGroup, Label, Input } from "reactstrap";
+import {
+  Button,
+  Form,
+  FormGroup,
+  FormFeedback,
+  Label,
+  Input,
+} from "reactstrap";
 
 class AddEditForm extends React.Component {
   state = {
@@ -90,7 +97,7 @@ class AddEditForm extends React.Component {
             type="text"
             name="name"
             id="name"
-            invalid={this.state.name === ""}
+            invalid={this.state.name === null}
             onChange={this.onChange}
             value={this.state.name === null ? "" : this.state.name}
           />
