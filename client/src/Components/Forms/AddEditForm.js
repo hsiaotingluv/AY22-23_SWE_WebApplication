@@ -21,7 +21,7 @@ class AddEditForm extends React.Component {
     console.log("phone: ", this.state.phone);
 
     e.preventDefault();
-    fetch("http://localhost:9000/api/contacts", {
+    fetch("/api/contacts", {
       method: "post",
       headers: {
         "Content-Type": "application/json",
@@ -47,7 +47,7 @@ class AddEditForm extends React.Component {
 
   submitFormEdit = (e) => {
     e.preventDefault();
-    fetch(`http://localhost:9000/api/contacts/${this.state._id}`, {
+    fetch(`/api/contacts/${this.state._id}`, {
       method: "put",
       headers: {
         "Content-Type": "application/json",

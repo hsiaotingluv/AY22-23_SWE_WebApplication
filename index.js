@@ -61,14 +61,14 @@ if (process.env.NODE_ENV === "production") {
   app.get("*", (req, res) => {
     res.sendFile(path.resolve(__dirname, "./client/build", "index.html"));
   });
-} else {
-  // Use Api routes in the App
-  app.use("/api", apiRoutes);
-  // Handle GET requests to /api route
-  app.get("/api", (req, res) => {
-    res.json({ message: "Hello from server!" });
-  });
 }
+
+// Use Api routes in the App
+app.use("/api", apiRoutes);
+// Handle GET requests to /api route
+app.get("/api", (req, res) => {
+  res.json({ message: "Hello from server!" });
+});
 
 // // Have Node serve the files for our built React app
 // app.use(express.static(path.resolve(__dirname, "./client/build")));
