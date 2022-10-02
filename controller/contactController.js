@@ -77,6 +77,19 @@ exports.update = function (req, res) {
     contact.gender = req.body.gender;
     contact.email = req.body.email;
     contact.phone = req.body.phone;
+
+    if (
+      !contact.name ||
+      typeof contact.name !== "string" ||
+      (contact.email && typeof contact.email !== "string") ||
+      (contact.gender && typeof contact.gender !== "string") ||
+      (contact.phone && typeof contact.phone !== "string")
+    ) {
+      return res.status(400).json({
+        message: "Invalid Params, name cannot be empty",
+      });
+    }
+    
     // save the contact and check for errors
     contact.save(function (err) {
       if (err) {
