@@ -18,7 +18,7 @@ class App extends Component {
 
     fetch("https://my-http-function-vtg6e7ziva-uc.a.run.app/")
       .then((response) => response.json())
-      .then((items) => this.setState({ weathers: items.data }))
+      .then((items) => this.setState({ weathers: items }))
       .catch((err) => console.log(err));
   }
 
