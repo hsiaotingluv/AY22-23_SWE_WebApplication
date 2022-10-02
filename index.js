@@ -16,15 +16,19 @@ const path = require("path");
 // };
 // Import Body parser
 let bodyParser = require("body-parser");
+// Setup server port
+var port = process.env.PORT || 9000;
+// Import Mongoose
+let mongoose = require("mongoose");
 
 // Connect to database
-const { MongoClient } = require("mongodb");
-const uri =
-  "mongodb+srv://test123:test123@peerprepcluster.bntuk1s.mongodb.net/?retryWrites=true&w=majority";
-const client = new MongoClient(uri, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+// const { MongoClient } = require("mongodb");
+// const uri =
+//   "mongodb+srv://test123:test123@peerprepcluster.bntuk1s.mongodb.net/?retryWrites=true&w=majority";
+// const client = new MongoClient(uri, {
+//   useNewUrlParser: true,
+//   useUnifiedTopology: true,
+// });
 
 // Initialise the app
 const app = express();
@@ -41,37 +45,32 @@ app.use(
 );
 app.use(bodyParser.json());
 
-// // Import Mongoose
-// let mongoose = require("mongoose");
+// Connect to Mongoose and set connection variable
+mongoose
+  .connect(process.env.MONGODB_URI || "mongodb://localhost/resthub", {
+    useNewUrlParser: true,
+  })
+  .then((connect) => console.log("connected to mongodb!"))
+  .catch((e) => console.log("could not connect to mongodb", e));
 
-// // Connect to Mongoose and set connection variable
-// mongoose
-//   .connect(process.env.MONGODB_URI || "mongodb://localhost/resthub", {
-//     useNewUrlParser: true,
-//   })
-//   .then((connect) => console.log("connected to mongodb!"))
-//   .catch((e) => console.log("could not connect to mongodb", e));
+var db = mongoose.connection;
 
-// var db = mongoose.connection;
+// Added check for DB connection
+if (!db) console.log("Error connecting db");
+else console.log("Db connected successfully");
 
-// // Added check for DB connection
-// if (!db) console.log("Error connecting db");
-// else console.log("Db connected successfully");
+// client.connect((err) => {
+//   // const collection = client.db("test").collection("devices");
+//   // // perform actions on the collection object
+//   // client.close();
+//   console.log("Db connected successfully");
+// });
 
-
-client.connect((err) => {
-  // const collection = client.db("test").collection("devices");
-  // // perform actions on the collection object
-  // client.close();
-  console.log("Db connected successfully");
-});
-
-// Setup server port
-var port = process.env.PORT || 9000;
-
-// Launch app to listen to specified port
-app.listen(port, function () {
-  console.log("Running RestHub on port " + port);
+// Use Api routes in the App
+app.use("/api", apiRoutes);
+// Handle GET requests to /api route
+app.get("/api", (req, res) => {
+  res.json({ message: "Hello from server!" });
 });
 
 // Have heroku to serve a static build file
@@ -84,11 +83,9 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-// Use Api routes in the App
-app.use("/api", apiRoutes);
-// Handle GET requests to /api route
-app.get("/api", (req, res) => {
-  res.json({ message: "Hello from server!" });
+// Launch app to listen to specified port
+app.listen(port, function () {
+  console.log("Running RestHub on port " + port);
 });
 
 // // Have Node serve the files for our built React app

@@ -11,8 +11,8 @@ class App extends Component {
 
   getItems() {
     // fetch("http://localhost:9000/api/contacts")
-    // fetch("/api/contacts")
-    fetch(`${process.env.MONGODB_URI}/api/contacts`)
+    fetch("/api/contacts")
+      // fetch(`${process.env.MONGODB_URI}/api/contacts`)
       .then((response) => response.json())
       .then((items) => this.setState({ items: items.data }))
       .catch((err) => console.log(err));
@@ -25,7 +25,9 @@ class App extends Component {
   };
 
   updateState = (item) => {
-    const itemIndex = this.state.items.findIndex((data) => data._id === item._id);
+    const itemIndex = this.state.items.findIndex(
+      (data) => data._id === item._id
+    );
     const newArray = [
       // destructure all items from beginning to the indexed item
       ...this.state.items.slice(0, itemIndex),
