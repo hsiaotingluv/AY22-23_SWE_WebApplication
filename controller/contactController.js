@@ -72,18 +72,6 @@ exports.view = function (req, res) {
 // Handle update contact info
 exports.update = function (req, res) {
   Contact.findById(req.params.contact_id, function (err, contact) {
-    if (
-      !contact.name ||
-      typeof contact.name !== "string" ||
-      (contact.email && typeof contact.email !== "string") ||
-      (contact.gender && typeof contact.gender !== "string") ||
-      (contact.phone && typeof contact.phone !== "string")
-    ) {
-      return res.status(400).json({
-        message: "Invalid Params, name cannot be empty",
-      });
-    }
-
     if (err) res.send(err);
     contact.name = req.body.name ? req.body.name : contact.name;
     contact.gender = req.body.gender;
