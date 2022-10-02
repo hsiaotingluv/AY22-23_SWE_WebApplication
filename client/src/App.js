@@ -82,11 +82,9 @@ class App extends Component {
             <h1 style={{ margin: "20px 0" }}>Weather</h1>
           </Col>
         </Row>
-        <Row>
-          <Col>
-            <h1 style={{ margin: "14px 0" }}>{this.state.weathers}</h1>
-          </Col>
-        </Row>
+        {this.state.weathers.map((weather) => {
+          <Row>{weather}</Row>;
+        })}
       </Container>
     );
   }
