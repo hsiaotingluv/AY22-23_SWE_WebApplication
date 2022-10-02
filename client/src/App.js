@@ -77,7 +77,9 @@ class App extends Component {
             />
           </Col>
         </Row>
-        <Row></Row>
+        <Row>
+          <h1 style={{ margin: "20px 0" }}></h1>
+        </Row>
         <Row>
           <Col>
             <h1 style={{ margin: "20px 0" }}>4-Day Weather Forecasts</h1>
