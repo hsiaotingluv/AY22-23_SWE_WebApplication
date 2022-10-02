@@ -6,6 +6,7 @@ import DataTable from "./Components/Tables/DataTable";
 class App extends Component {
   state = {
     items: [],
+    weathers: [],
   };
 
   getItems() {
@@ -13,6 +14,11 @@ class App extends Component {
     fetch("/api/contacts")
       .then((response) => response.json())
       .then((items) => this.setState({ items: items.data }))
+      .catch((err) => console.log(err));
+
+    fetch("https://my-http-function-vtg6e7ziva-uc.a.run.app/")
+      .then((response) => response.json())
+      .then((items) => this.setState({ weathers: items.data }))
       .catch((err) => console.log(err));
   }
 
@@ -69,6 +75,16 @@ class App extends Component {
               buttonLabel="Add Contact"
               addItemToState={this.addItemToState}
             />
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <h1 style={{ margin: "20px 0" }}>Weather</h1>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <h1 style={{ margin: "14px 0" }}>{this.state.weathers}</h1>
           </Col>
         </Row>
       </Container>
