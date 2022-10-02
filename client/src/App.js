@@ -79,12 +79,14 @@ class App extends Component {
         </Row>
         <Row>
           <Col>
-            <h1 style={{ margin: "20px 0" }}>Weather</h1>
+            <h1 style={{ margin: "20px 0" }}>4-Day Weather Forecasts</h1>
           </Col>
         </Row>
-        {this.state.weathers.map((weather) => {
-          <Row>{weather}</Row>;
-        })}
+        <ol>
+          {this.state.weathers.map((weather, sIndex) => {
+            return <li key={sIndex}>{weather}</li>;
+          })}
+        </ol>
       </Container>
     );
   }
