@@ -17,8 +17,14 @@ const path = require("path");
 // Import Body parser
 let bodyParser = require("body-parser");
 
-// Import Mongoose
-let mongoose = require("mongoose");
+// Connect to database
+const { MongoClient } = require("mongodb");
+const uri =
+  "mongodb+srv://test123:test123@peerprepcluster.bntuk1s.mongodb.net/?retryWrites=true&w=majority";
+const client = new MongoClient(uri, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 // Initialise the app
 const app = express();
@@ -35,19 +41,30 @@ app.use(
 );
 app.use(bodyParser.json());
 
-// Connect to Mongoose and set connection variable
-mongoose
-  .connect(process.env.MONGODB_URI || "mongodb://localhost/resthub", {
-    useNewUrlParser: true,
-  })
-  .then((connect) => console.log("connected to mongodb!"))
-  .catch((e) => console.log("could not connect to mongodb", e));
-  
-var db = mongoose.connection;
+// // Import Mongoose
+// let mongoose = require("mongoose");
 
-// Added check for DB connection
-if (!db) console.log("Error connecting db");
-else console.log("Db connected successfully");
+// // Connect to Mongoose and set connection variable
+// mongoose
+//   .connect(process.env.MONGODB_URI || "mongodb://localhost/resthub", {
+//     useNewUrlParser: true,
+//   })
+//   .then((connect) => console.log("connected to mongodb!"))
+//   .catch((e) => console.log("could not connect to mongodb", e));
+
+// var db = mongoose.connection;
+
+// // Added check for DB connection
+// if (!db) console.log("Error connecting db");
+// else console.log("Db connected successfully");
+
+
+client.connect((err) => {
+  // const collection = client.db("test").collection("devices");
+  // // perform actions on the collection object
+  // client.close();
+  console.log("Db connected successfully");
+});
 
 // Setup server port
 var port = process.env.PORT || 9000;

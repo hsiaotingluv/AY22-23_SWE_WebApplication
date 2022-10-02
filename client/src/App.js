@@ -11,7 +11,8 @@ class App extends Component {
 
   getItems() {
     // fetch("http://localhost:9000/api/contacts")
-    fetch("/api/contacts")
+    // fetch("/api/contacts")
+    fetch(`${process.env.MONGODB_URI}/api/contacts`)
       .then((response) => response.json())
       .then((items) => this.setState({ items: items.data }))
       .catch((err) => console.log(err));
