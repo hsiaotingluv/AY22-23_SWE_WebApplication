@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Container, Row, Col } from "reactstrap";
 import ModalForm from "./Components/Modals/Modal";
 import DataTable from "./Components/Tables/DataTable";
-import { CSVLink } from "react-csv";
 
 class App extends Component {
   state = {
@@ -12,7 +11,6 @@ class App extends Component {
   getItems() {
     // fetch("http://localhost:9000/api/contacts")
     fetch("/api/contacts")
-      // fetch(`${process.env.MONGODB_URI}/api/contacts`)
       .then((response) => response.json())
       .then((items) => this.setState({ items: items.data }))
       .catch((err) => console.log(err));
@@ -67,15 +65,6 @@ class App extends Component {
         </Row>
         <Row>
           <Col>
-            {/* <CSVLink
-              filename={"db.csv"}
-              color="primary"
-              style={{ float: "left", marginRight: "10px" }}
-              className="btn btn-primary"
-              data={this.state.items}
-            >
-              Download Contacts
-            </CSVLink> */}
             <ModalForm
               buttonLabel="Add Contact"
               addItemToState={this.addItemToState}
