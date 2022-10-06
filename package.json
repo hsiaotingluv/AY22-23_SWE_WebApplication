@@ -8,6 +8,7 @@
   },
   "scripts": {
     "start": "node index.js",
+    "startAuth": "nodemon authServer.js",
     "build": "cd client && npm install && npm run build",
     "test": "mocha --recursive --exit tests/*.js",
     "dev": "nodemon ./index.js"
@@ -15,7 +16,9 @@
   "author": "Chen Hsiao Ting",
   "dependencies": {
     "body-parser": "^1.20.0",
+    "dotenv": "^8.1.0",
     "express": "^4.18.1",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.6.1",
     "serve": "^14.0.1"
   },
